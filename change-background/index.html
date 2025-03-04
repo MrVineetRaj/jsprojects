@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Change Background</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background: #ffffff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100svh;
+        transition: all 1s ease-in-out;
+      }
+
+      .container {
+        padding: 20px;
+        border: 1px solid rgb(195, 195, 195);
+        border-radius: 10px;
+        box-shadow: 5px 15px 20px rgb(141, 141, 141, 0.2);
+        background: white;
+      }
+
+      #color-input {
+        width: 200px;
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 5px;
+        border: 1px solid gray;
+        outline: none;
+      }
+      button {
+        min-width: 100px;
+        padding: 10px;
+        border: 1px solid gray;
+        border-radius: 5px;
+        font-size: 14px;
+        font-weight: 600;
+        background-color: transparent;
+        transition: all 0.3s ease-in-out;
+        color: gray;
+        box-shadow: 5px 5px 5px rgb(0, 0, 0, 0.1);
+        cursor: pointer;
+        &:active {
+          scale: 0.95;
+        }
+      }
+
+      #submit-button {
+        background: blue;
+        font-size: 16px;
+        color: white;
+      }
+      .btn-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        margin-top: 10px;
+        gap: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <form action="">
+        <input
+          type="text"
+          aria-label="input field for color input "
+          id="color-input"
+          placeholder="Enter color name"
+        />
+        <button
+          type="submit"
+          aria-label="Button to change color"
+          id="submit-button"
+        >
+          Change Color
+        </button>
+      </form>
+
+      <div class="btn-container"></div>
+    </div>
+
+    <script>
+      let changeColorForm = document.querySelector("form");
+      let body = document.querySelector("body");
+      let btnsContainer = document.querySelector(".btn-container");
+      const color = [];
+      const changeColor = (color) => {
+        body.style.background = color;
+      };
+
+      const isValidColor = (color) => {
+        const s = new Option().style;
+        s.color = color;
+        console.log(s.color);
+        return s.color !== "";
+      };
+
+      const addColorButtons = (color) => {
+        let newColorBtn = document.createElement("button");
+        newColorBtn.innerText = color.toUpperCase();
+        newColorBtn.style.border = `2px solid ${color.toLowerCase()}`;
+        newColorBtn.style.color = color.toLowerCase();
+
+        btnsContainer.appendChild(newColorBtn);
+      };
+
+      changeColorForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        if (!isValidColor(e.target[0].value)) {
+          alert("Enter valid color");
+          return;
+        }
+        changeColor(e.target[0].value);
+        addColorButtons(e.target[0].value);
+        color.push(e.target[0].value.toLowerCase());
+        e.target[0].value = "";
+      });
+
+      btnsContainer.addEventListener("click", (e) => {
+        if (color.some((item) => item === e.target.innerText.toLowerCase())) {
+          if (body.style.background === e.target.innerText.toLowerCase()) {
+            body.style.background = "white";
+            return;
+          }
+          body.style.background = e.target.innerText.toLowerCase();
+        }
+      });
+    </script>
+  </body>
+</html>
