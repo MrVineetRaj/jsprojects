@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="../src/assets/logo.svg" type="image" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Image Carousel</title>
+  </head>
+  <body>
+   
+    <div class="container">
+      <h1 class="gradient-text">Thankyou for Shopping</h1>
+      <div class="products-container">
+        <div class="product">
+          <img
+            src="../src/assets/change-the-color.png"
+            alt=""
+            class="product-image"
+          />
+
+          <span>
+            <p>Change The Color</p>
+            <button>Add to Cart</button>
+          </span>
+          <p class="price">5$</p>
+        </div>
+      </div>
+    </div>
+    <span class="cart-container">
+      <h1 class="gradient-text">Your Cart</h1>
+      <div class="cart-items-list">
+        <div class="cart-item-container">
+          <div class="left">
+            <img src="../src/assets/change-the-color.png" alt="" />
+            <p>Product Name</p>
+          </div>
+
+          <div class="right">
+            <span class="cart-item-quantity-controls">
+              <button class="decrease-quantity">-</button>
+              <span class="product-quantity">1</span>
+              <button class="increase-quantity">+</button>
+              <span>X</span>
+            </span>
+            <span class="cart-item-quantity-price">20$</span>
+          </div>
+        </div>
+      </div>
+      <div class="total-price-display">
+        <p>Total Price</p>
+        <p id="total-price">5</p>
+      </div>
+    </span>
+
+    <!-- <script type="module" src="./dom-elements.js"></script> -->
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>
