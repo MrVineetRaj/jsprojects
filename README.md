@@ -28,6 +28,8 @@ In this repo all the projects are made using html css and javascript
 
 12. [Calculator](#calculator) | [Demo](https://jsprojects.unknownbug.tech/calculator/)
 
+13. [Change Background](#change-background) | [Demo](https://jsprojects.unknownbug.tech/change-background)
+
 ## Light the bulb
 
 Simple ui in which if you click on button it will light the bulb
@@ -75,3 +77,7 @@ Famous memory card game
 ## Calculator
 
 Simple calculator
+
+## Change Background
+
+Here a input field takes your favorite color name validates it and then set background color with the same and gives you button to control the color
