@@ -28,7 +28,8 @@ btns.forEach((btn, index) => {
       if (!expression) {
         expression = "0";
       }
-      expression.replace("X", "*");
+      expression = expression.replace("X", "*");
+      console.log(expression);
       let ans = eval(expression);
       calcInput.value = `ANS = ${ans}`;
       return;

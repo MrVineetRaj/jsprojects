@@ -1,6 +1,4 @@
-/**
- * Write your challenge solution here
- */
+
 const products = [
   {
     image: "../src/assets/change-the-color.png",
