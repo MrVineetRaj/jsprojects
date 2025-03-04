@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="../src/assets/logo.svg" type="image" />
+    <link rel="stylesheet" href="./styles/game-styles.css" />
+    <link rel="stylesheet" href="./styles/styles.css" />
+    <title>Tic Tac Toe</title>
+  </head>
+  <body>
+    
+    <div class="hero">
+      <h1>
+        Classic Tic-Tac-Toe, Now with a <br />
+        <span class="gradient-text"> Competitive Twist!</span>
+      </h1>
+      <div class="btns">
+        <button id="start-player-btn">Start 2 player</button>
+        <button id="start-computer-btn">
+          <span class="gradient-text"> Play with Computer</span>
+        </button>
+      </div>
+    </div>
+
+    <div id="leader-board-container">
+      <h1 class="gradient-text">Leader Board</h1>
+      <hr />
+      <div id="leader-board">
+        <div id="leader-board-heading">
+          <span class="ranking">🏆</span>
+          <span class="player-name">Player Name</span>
+          <span class="games-won">Games Won</span>
+        </div>
+        <div id="leader-board-ranking">
+          <div>
+            <span class="ranking">1</span>
+            <span class="player-name">Computer</span>
+            <span class="games-won">0</span>
+          </div>
+          <div>
+            <span class="ranking">1</span>
+            <span class="player-name">Computer</span>
+            <span class="games-won">0</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="registration-forms">
+      <h1 id="form-close-button">X</h1>
+      <form action="" id="start-player-form">
+        <legend class="gradient-text">
+          <h2>Players Info</h2>
+        </legend>
+        <span class="input-container">
+          <input type="text" name="player-1" id="input-player-1" />
+          <label for="input-player-1" id="input-label-player-1">
+            <p>Player 1 Name</p></label
+          >
+        </span>
+        <span>
+          <input type="text" name="player-2" id="input-player-2" />
+          <label for="input-player-2" class="" id="input-label-player-2"
+            >Player 2 Name</label
+          >
+        </span>
+        <button type="submit">Start Game</button>
+      </form>
+      <form action="" id="start-computer-form">
+        <legend class="gradient-text">
+          <h2>Player Info</h2>
+        </legend>
+        <span>
+          <input type="text" name="player-1" id="input-player" />
+          <label for="play?player-1=&player-2=er" id="input-label-player">
+            Player Name</label
+          >
+        </span>
+        <button type="submit">Start Game</button>
+      </form>
+    </div>
+
+    <div class="start-game-container">
+      <div class="left-side">
+        <div id="left-side-player-details">
+          <!-- <span id="player-x-detail"> -->
+          <h1 id="player-x-name">Vineet Raj X</h1>
+          <span>
+            Score &#58;
+            <span id="player-x-score">0</span>
+          </span>
+        </div>
+      </div>
+      <div class="right-side">
+        <div id="right-side-player-details">
+          <!-- <span id="player-0-detail"> -->
+          <h1 id="player-o-name">Computer O</h1>
+          <span>
+            Score &#58;
+            <span id="player-o-score">O</span></span
+          >
+        </div>
+      </div>
+      <h1 id="player-name-next-turn">Vineet's Turn</h1>
+      <div class="game-board">
+        <span class="game-box"></span>
+        <span class="game-box"></span>
+        <span class="game-box"></span>
+        <span class="game-box"></span>
+        <span class="game-box"></span>
+        <span class="game-box"></span>
+        <span class="game-box"></span>
+        <span class="game-box"></span>
+        <span class="game-box"></span>
+      </div>
+      <button id="end-match-btn">End Match</button>
+    </div>
+    <script type="module" src="./scripts/dom-elemetns.js"></script>
+    <script type="module" src="./scripts/game-play-script.js"></script>
+    <script type="module" src="./scripts/script.js"></script>
+    <script type="module" src="./scripts/styling-script.js"></script>
+  </body>
+</html>

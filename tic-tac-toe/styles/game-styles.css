@@ -1,0 +1,122 @@
+.start-game-container {
+  position: fixed;
+  height: 100svh;
+  width: 100svw;
+  background: #000;
+  top: 0;
+  left: 0;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.left-side {
+  position: absolute;
+  width: 50vw;
+  background: rgb(128, 43, 0);
+  height: 100vh;
+  border-right: 5px solid black;
+  left: -100%; /* Start off-screen */
+  animation: animateLeft 0.5s ease forwards; /* Apply animation when class is added */
+  padding: 20px;
+  display: flex;
+  align-items: start;
+  justify-content: start;
+  flex-direction: column;
+  gap: 20px;
+  color: white;
+  font-size: 30px;
+  text-align: left;
+}
+
+.right-side {
+  background: rgb(45, 1, 99);
+  position: absolute;
+  width: 50vw;
+  height: 100vh;
+  right: -100%;
+  border-left: 5px solid rgb(0, 0, 0);
+  animation: animateRight 0.5s ease forwards; /* Apply animation when class is added */
+  padding: 30px;
+  display: flex;
+  align-items: end;
+  justify-content: end;
+  flex-direction: column;
+  gap: 20px;
+  color: white;
+  font-size: 30px;
+  text-align: right;
+}
+
+#player-name-next-turn {
+  background: linear-gradient(90deg, #ff8a00, #e52e71);
+  background-clip: text;
+  color: transparent;
+  font-style: italic;
+  z-index: 20;
+  animation: showGameBoardWithDelay 0.5s ease forwards;
+}
+
+#end-match-btn{
+  background: linear-gradient(90deg, #ff8a00, #e52e71);
+  color: white;
+  z-index: 20;
+  border: 0;
+  margin-top: 20px;
+}
+
+.game-board {
+  display: grid; /* Initially hide the game board */
+  grid-template-columns: repeat(3, 1fr);
+  z-index: 20;
+  gap: 5px;
+  background: white;
+  padding: 10px;
+  border-radius: 10px;
+  opacity: 0;
+  animation: showGameBoardWithDelay 0.5s ease forwards;
+
+  .game-box {
+    border: 2px solid gray;
+    border-radius: 5px;
+    width: 80px;
+    height: 80px;
+    z-index: 20;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 60px;
+  }
+}
+
+@keyframes animateLeft {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 0vw;
+  }
+}
+
+@keyframes animateRight {
+  0% {
+    right: -100%;
+  }
+  100% {
+    right: 0vw;
+  }
+}
+
+@keyframes showGameBoardWithDelay {
+  0% {
+    opacity: 0;
+  }
+  99% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
