@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="./styles/utility.css" />
+    <link rel="stylesheet" href="./styles/main.css" />
+    <link rel="stylesheet" href="/styles/aside.css" />
+    <link rel="stylesheet" href="./styles/task-input-form.css" />
+    <title>Tracky | Track you tasks</title>
+  </head>
+  <body>
+    <span id="custom-alert"> </span>
+
+    <aside>
+      <h1 class="logo-text gradient-text">Tracky</h1>
+      <div class="org-details">
+        <div id="user-avatar">VR</div>
+        <div class="detail">
+          <h3 id="user-name">User Name</h3>
+          <p id="org-name">Org Name</p>
+        </div>
+      </div>
+      <div class="nav-options"></div>
+    </aside>
+    <main>
+      <div class="nav-display">
+        <h1 id="page-title">Tracky</h1>
+        <div class="nav-control">
+          <i class="fa fa-bars open-sidebar sidebar-control active"></i>
+          <i class="fa fa-close close-sidebar sidebar-control"></i>
+        </div>
+      </div>
+      <hr />
+      <div class="container" style="flex-direction: column"></div>
+    </main>
+
+    <!-- components  -->
+    <div class="model-container"></div>
+
+    <script type="module" src="./scripts/domElements.js"></script>
+    <script type="module" src="./scripts/app.js"></script>
+    <script type="module" src="./scripts/utility.js"></script>
+    <script type="module" src="./scripts/script-for-aside.js"></script>
+    <script type="module" src="./scripts/components.js"></script>
+
+    <script
+      src="https://kit.fontawesome.com/8b4a89458f.js"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      type="module"
+      src="./scripts/constants.js
+    "
+    ></script>
+  </body>
+</html>

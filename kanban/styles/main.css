@@ -1,0 +1,196 @@
+main {
+  margin-left: 300px;
+  /* background: red; */
+  padding: 20px;
+
+  .container {
+    display: flex;
+    gap: 20px;
+    overflow-x: scroll;
+    scrollbar-width: none;
+    padding: 10px;
+    border-radius: 5px;
+    /* flex-direction: column; */
+  }
+
+  /* board related css */
+  .board {
+    min-height: 85vh;
+    min-width: 250px;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+    position: relative;
+  }
+
+  .board-control {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+  }
+
+  .top {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: 100%;
+  }
+
+  .items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: 100%;
+    flex: 1;
+    /* background: red; */
+  }
+
+  .item {
+    border: 1px solid gray;
+    padding: 10px;
+    display: flex;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:hover {
+      background: white;
+      color: black;
+    }
+  }
+
+  .add-board {
+    font-size: 180px;
+    font-weight: 900;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: scale 0.2s ease-in-out;
+
+    &:active {
+      scale: 0.95;
+    }
+  }
+
+  .flying {
+    transform: rotate(-5deg);
+    opacity: 0.8;
+  }
+
+  .item-counter-kanban {
+    display: inline-block;
+    color: white;
+    margin-left: 10px;
+    min-height: 20px;
+    min-width: 20px;
+    text-align: center;
+    border-radius: 50px;
+  }
+
+  /* Admin panel Related CSS */
+  .task-counters {
+    display: flex;
+    flex-direction: row;
+    overflow-x: scroll;
+    gap: 40px;
+    scrollbar-width: none;
+  }
+  .task-counter {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .member-container-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  #add-new-member {
+    background: blue;
+  }
+
+  .members-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: start;
+  }
+
+  .member {
+    box-shadow: -1px 2px 5px;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+  }
+
+  /* Profile Page*/
+  .tasks-container {
+    /* background: red; */
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .tasks {
+    background: white;
+    color: black;
+    padding: 10px;
+    border-radius: 10px;
+    min-width: 300px;
+    width: 300px;
+  }
+}
+
+.nav-display {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 200000000000000;
+
+  .nav-control {
+    display: none;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+  }
+  .sidebar-control {
+    display: none;
+  }
+  .sidebar-control.active {
+    display: inline-block;
+  }
+
+  .container {
+    background: red;
+    .task-counters {
+      background: green;
+    }
+    .task-counter {
+      border: 5px solid orange;
+      background: red;
+    }
+  }
+}
+
+@media (max-width: 778px) {
+  main {
+    margin-left: 0px;
+  }
+
+  .nav-display .nav-control {
+    display: flex;
+  }
+}
