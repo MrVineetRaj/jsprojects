@@ -9,11 +9,19 @@ function isAccessAllowed(
   validRoles
 ) {
   // // console.log(samePersonAllowed, isSamePerson, actionTaker, validRoles);
+  // console.log(this.);
+  console.log(actionTaker, validRoles);
+  console.log(
+    "Hello!",
+    validRoles.some((role) => role === actionTaker.role)
+  );
 
-  if (!validRoles.includes(actionTaker.role)) {
+  if (validRoles.some((role) => role === actionTaker.role)) {
+    console.log("here in admin");
     return true;
   } else if (samePersonAllowed && isSamePerson) {
-    return false;
+    console.log("here in ine");
+    return true;
   }
 
   return false;
@@ -138,25 +146,39 @@ class OrgServices {
   }
 
   // board related
-  addNewBoard(boardTitle, themeColor, access) {
-    if (isAccessAllowed(adder, ["super-admin"])) {
+  addNewBoard(id, boardDesc, boardTitle, themeColor, access, adder) {
+    if (!isAccessAllowed(false, false, adder, ["super-admin"])) {
       return "Access Denied";
     }
 
-    let currTime = new Date().getTime();
+    let storedOrgDetails = JSON.parse(
+      localStorage.getItem(`tracky_${this.orgId}`)
+    );
 
-    this.boards.push({
-      id: `B${currTime}`,
-      boardTitle,
-      themeColor,
-      access,
-    });
+    // let { boards, ...restData } = storedOrgDetails;
+    let boards = storedOrgDetails?.boards || [];
+    const currTime = new Date().getTime();
+    let updatedBoard = [
+      ...JSON.parse(JSON.stringify(boards)),
+      {
+        id: id,
+        boardTitle: boardTitle,
+        boardDesc,
+        access: access,
+        themeColor: themeColor,
+      },
+    ];
 
+    syncToLocalStorage(
+      { ...storedOrgDetails, boards: updatedBoard },
+      `tracky_${this.orgId}`
+    );
+    renderLayout();
     return "Board Added";
   }
 
   updateBoard(updatedBoard, updater) {
-    if (isAccessAllowed(updater, ["super-admin"])) {
+    if (!isAccessAllowed(false, false, updater, ["super-admin"])) {
       return "Access Denied";
     }
 
@@ -164,39 +186,58 @@ class OrgServices {
       if (board.id === updatedBoard.id) {
         board = updatedBoard;
       }
+
+      return board;
     });
 
-    this.boards = updatedBoards;
+    // console.log(updatedBoards)
+    // this.boards = updatedBoards;
 
-    let previousDetails = JSON.parse(localStorage.getItem(`tracky_${orgId}`));
+    let previousDetails = JSON.parse(
+      localStorage.getItem(`tracky_${this.orgId}`)
+    );
+
+    // console.log(updatedBoards);
     let updatedDetails = {
-      ...previousDetails,
-      boards: this.boards,
+      ...JSON.parse(JSON.stringify(previousDetails)),
+      boards: updatedBoards,
     };
 
-    syncToLocalStorage(updatedDetails, `tracky_${orgId}`);
+    console.log(updatedDetails)
+
+    syncToLocalStorage(updatedDetails, `tracky_${this.orgId}`);
+    renderLayout()
     return "Board Updated";
   }
 
   removeBoard(boardId, remover) {
-    if (isAccessAllowed(remover, ["super-admin"])) {
+    console.log("boardId", boardId, "rmeover : ", remover);
+    if (!isAccessAllowed(false, false, remover, ["super-admin"])) {
       return "Access Denied";
     }
 
-    let newBoardsList = this.boards.filter((board) => {
-      return board.id === boardId;
+    let newBoardItems = this.boardItems.filter((boardItem) => {
+      return boardItem.boardId !== boardId;
     });
 
-    this.boards = newBoardsList;
+    let newBoardsList = this.boards.filter((board) => {
+      return board.id !== boardId;
+    });
 
-    let previousDetails = JSON.parse(localStorage.getItem(`tracky_${orgId}`));
+    // this.boards = newBoardsList;
+
+    let previousDetails = JSON.parse(
+      localStorage.getItem(`tracky_${this.orgId}`)
+    );
     let updatedDetails = {
       ...previousDetails,
-      boards: this.boards,
+      boardItems: newBoardItems,
+      boards: newBoardsList,
     };
 
-    syncToLocalStorage(updatedDetails, `tracky_${orgId}`);
-    return "Board Updated";
+    syncToLocalStorage(updatedDetails, `tracky_${this.orgId}`);
+    renderLayout();
+    return "Board and attached items are removed";
   }
 
   getBoardDetail(boardId) {
@@ -219,7 +260,8 @@ class OrgServices {
     dueDate,
     tags
   ) {
-    if (isAccessAllowed(false, false, updater, ["super-admin", "admin"])) {
+    // console.log(updater)
+    if (!isAccessAllowed(false, false, updater, ["super-admin", "admin"])) {
       return `Access Denied must be super-admin or admin`;
     }
 
@@ -245,12 +287,19 @@ class OrgServices {
     };
 
     syncToLocalStorage(updatedDetails, `tracky_${this.orgId}`);
-    return "Board Items Updated";
+    return "Board Item Added";
   }
 
   updateTaskItem(updatedTaskItem, updater, dragSort = false, aboveItem = "") {
     // console.log("updatedTaskItem from management "), updatedTaskItem;
-    if (isAccessAllowed(false, false, updater, ["super-admin", "admin"])) {
+    if (
+      !isAccessAllowed(
+        true,
+        updatedTaskItem.assignedTo === updater.id,
+        updater,
+        ["super-admin", "admin"]
+      )
+    ) {
       return "Access Denied";
     }
 
@@ -331,7 +380,7 @@ class OrgServices {
     }
 
     let newBoardItems = this.boardItems.filter((boardItem) => {
-      return boardItem.id === boardItemId;
+      return boardItem.id !== boardItemId;
     });
 
     this.boardItems = newBoardItems;

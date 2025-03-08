@@ -8,6 +8,7 @@
   display: none;
   justify-content: center;
   align-items: start;
+  z-index: 10000000000000000000000;
 
   .input-form,
   .login-form,

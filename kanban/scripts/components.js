@@ -193,7 +193,7 @@ export const LoginForm = () => {
         <legend>
           <h3>Login Form</h3>
         </legend>
-        <span class="close-form"><i class="fa-solid fa-xmark"></i></span>
+        
         <span class="input-field">
           <input type="text" placeholder="O51534..." name="org-id" />
           <label for="">Organization Id</label>
@@ -323,8 +323,15 @@ export const SignupForm = () => {
   });
 };
 
-export const CreateNewBoard = () => {
+export const CreateNewBoard = (isUpdating = false, boardId = "") => {
   modelContainer.style.display = "flex";
+  let prevBoardDetail = null;
+
+  if (isUpdating && boardId) {
+    prevBoardDetail = myOrg.getBoardDetail(boardId);
+  }
+
+  // console.log(prevBoardDetail.boardDesc);
 
   modelContainer.innerHTML = `
       <form action="" class="new-board-form">
@@ -333,7 +340,9 @@ export const CreateNewBoard = () => {
           <h3>New board details</h3>
         </legend>
         <span class="input-field">
-          <input type="text" name="board-title" placeholder="In Progress..." />
+          <input type="text" name="board-title" placeholder="In Progress..." value="${
+            prevBoardDetail?.boardTitle || ""
+          }" />
           <label for="">Board Title</label>
         </span>
         <span class="input-field">
@@ -341,16 +350,21 @@ export const CreateNewBoard = () => {
             type="text"
             name="board-desc"
             placeholder="List of tasks that are in progress..."
-          ></textarea>
+            
+          >${prevBoardDetail?.boardDesc || ""}</textarea>
           <label for="">Board Description</label>
         </span>
         <span class="input-field-flex">
-          <input type="checkbox" name="access-control"/>
+          <input type="checkbox" name="access-control" ${
+            prevBoardDetail?.access?.some((access) => access === "employee")
+              ? "checked"
+              : ""
+          }/>
           <label for="">Allow users to edit !</label>
         </span>
         
         <div class="color-options">
-          <div class="option" id="red"></div>
+          <div class="option" id="red" ></div>
           <div class="option" id="orange"></div>
           <div class="option" id="purple"></div>
           <div class="option chosen" id="blue"></div>
@@ -373,33 +387,57 @@ export const CreateNewBoard = () => {
 
     let accessGivenTo = ["super-admin", "admin"];
     if (accessControlInput === "on") {
-      accessGivenTo.push("user");
+      accessGivenTo.push("employee");
     }
 
-    // // console.log(accessControl);
-    let storedOrgDetails = JSON.parse(localStorage.getItem(`tracky_${orgId}`));
+    // console.log(accessControl);
+    // let storedOrgDetails = JSON.parse(localStorage.getItem(`tracky_${orgId}`));
 
     // let { boards, ...restData } = storedOrgDetails;
-    let boards = storedOrgDetails?.boards || [];
+    // let boards = storedOrgDetails?.boards || [];
     const currTime = new Date().getTime();
-    let updatedBoard = [
-      ...JSON.parse(JSON.stringify(boards)),
-      {
-        id: `B${currTime}`,
-        boardTitle: boardTitle,
-        boardDesc,
-        access: accessGivenTo,
-        themeColor: themeColor,
-      },
-    ];
+    // let updatedBoard = [
+    //   ...JSON.parse(JSON.stringify(boards)),
+    //   {
+    //     id: `B${currTime}`,
+    //     boardTitle: boardTitle,
+    //     boardDesc,
+    //     access: accessGivenTo,
+    //     themeColor: themeColor,
+    //   },
+    // ];
 
-    syncToLocalStorage(
-      { ...storedOrgDetails, boards: updatedBoard },
-      `tracky_${myOrg.orgId}`
-    );
+    let res = "";
+    if (isUpdating) {
+      res = myOrg.updateBoard(
+        {
+          ...prevBoardDetail,
+          boardTitle,
+          boardDesc,
+          access: accessGivenTo,
+          themeColor,
+        },
+        myOrg.getCurrMember()
+      );
+    } else {
+      res = myOrg.addNewBoard(
+        `B${currTime}`,
+        boardDesc,
+        boardTitle,
+        themeColor,
+        accessGivenTo,
+        myOrg.getCurrMember()
+      );
+    }
+
+    CustomAlert(res);
+
+    // syncToLocalStorage(
+    //   { ...storedOrgDetails, boards: updatedBoard },
+    //   `tracky_${myOrg.orgId}`
+    // );
 
     modelContainer.style.display = "none";
-    renderLayout();
   });
 
   document.querySelector(".close-form").addEventListener("click", () => {
@@ -432,14 +470,14 @@ export const AddNewMember = () => {
           <label for="">Member name</label>
         </span>
         <span class="input-field">
-          <input type="password" name="passowrd" />
+          <input type="password" name="password" />
           <label for="">Password</label>
         </span>
         <span class="input-field">
           <select name="member-role" id="">
             <option value="">--Select Role--</option>
             <option value="admin">Admin</option>
-            <option value="member">Member</option>
+            <option value="employee">Member</option>
           </select>
           <label for="">Member Role</label>
         </span>

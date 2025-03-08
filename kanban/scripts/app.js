@@ -9,6 +9,7 @@ import {
   userNameDisplay,
   orgNameDisplay,
   boardContainer,
+  customAlert,
 } from "./domElements.js";
 import {
   renderAdminPanel,
@@ -73,8 +74,8 @@ export function renderLayout() {
     let boardControls = document.createElement("div");
     boardControls.classList.add("board-control");
     boardControls.innerHTML = `
-      <i class="fa-solid fa-edit " board-id=${boardId}></i>
-      <i class="fa-solid fa-trash" board-id=${boardId}></i>
+      <i class="fa-solid fa-edit edit-board" board-id=${boardId}></i>
+      <i class="fa-solid fa-trash delete-board" board-id=${boardId}></i>
     `;
 
     newBoard.appendChild(boardControls);
@@ -120,6 +121,23 @@ export function renderLayout() {
     newBoard.appendChild(addTaskButton);
     boardContainer.appendChild(newBoard);
   }
+
+  document.querySelectorAll(".delete-board").forEach((board) => {
+    board.addEventListener("click", () => {
+      let boardId = board.getAttribute("board-id");
+      // console.log("boardId", myOrg.getCurrMember());
+      let res = myOrg.removeBoard(boardId, myOrg.getCurrMember());
+      CustomAlert(res);
+    });
+  });
+
+  document.querySelectorAll(".edit-board").forEach((board) => {
+    let boardId = board.getAttribute("board-id");
+    board.addEventListener("click", () => {
+      CreateNewBoard(true, boardId);
+    });
+  });
+
   let addNewBoardWalaBoard = document.createElement("div");
   addNewBoardWalaBoard.classList.add("board");
   addNewBoardWalaBoard.classList.add("add-board");
@@ -144,13 +162,45 @@ export function renderLayout() {
 
   let itemOnBoardId = ""; // storing itemId
   let onItem = ""; //storing itemId
+  let prevBoardForItem = "";
+
   document.querySelectorAll(".item")?.forEach((item) => {
     item.addEventListener("dragstart", () => {
+      console.log("assigned to", myOrg.getTaskItemDetail(item.id).assignedTo);
+      console.log("currMember ", myOrg.getCurrMember().id);
+      if (
+        myOrg.getCurrMember().role === "employee" &&
+        myOrg.getTaskItemDetail(item.id).assignedTo !== myOrg.getCurrMember().id
+      ) {
+        CustomAlert("You can only drag tasks that are assigned to you");
+      }
+
       item.classList.add("flying");
+      prevBoardForItem = myOrg.getTaskItemDetail(item.id).boardTid;
     });
+
     item.addEventListener("dragend", () => {
       item.classList.remove("flying");
       const taskItemObj = myOrg.getTaskItemDetail(item.id);
+
+      console.log(
+        myOrg
+          .getBoardDetail(itemOnBoardId)
+          .access.some((access) => access === myOrg.getCurrMember().role)
+      );
+
+      console.log(
+        myOrg.getBoardDetail(itemOnBoardId).access,
+        myOrg.getCurrMember().role
+      );
+      if (
+        !myOrg
+          .getBoardDetail(itemOnBoardId)
+          .access.some((access) => access === myOrg.getCurrMember().role)
+      ) {
+        CustomAlert("You can not drag here");
+        return;
+      }
       const res = myOrg.updateTaskItem(
         { ...taskItemObj, boardId: itemOnBoardId },
         myOrg.getCurrMember(),
@@ -180,4 +230,4 @@ export function renderLayout() {
 
 renderLayout();
 // renderAdminPanel();
-renderProfile();
+// renderProfile();
